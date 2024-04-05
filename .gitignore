@@ -1,0 +1,48 @@
+Archivo .gitignore para un proyecto con Gatsby
+# Archivos generados
+node_modules/
+public/
+.cache/
+.gatsby-cache/
+.nyc_output/
+
+# Archivos de configuración
+.env.development
+.env.production
+gatsby-config.js
+
+# Archivos de desarrollo
+.vscode/
+jest/
+
+# Archivos de prueba
+coverage/
+jest-*.json
+
+# Archivos de minificación
+build/
+
+# Archivos temporales
+tmp/
+
+# Archivos de terceros
+.idea/
+.DS_Store
+
+# Archivos de logs
+logs/
+
+# Archivos de yarn
+yarn.lock
+
+# Archivos de npm
+package-lock.json
+
+# Archivos de Github
+.git/
+
+# Archivos de MacOS
+.DS_Store
+
+# Otros archivos
+Thumbs.db
