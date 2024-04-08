@@ -1,5 +1,5 @@
 module.exports = {
-  email: 'hi@jvillar.dev',
+  email: 'hello@jvillar.dev',
 
   socialMedia: [
     {
@@ -46,7 +46,7 @@ module.exports = {
   ],
 
   colors: {
-    green: '#64ffda',
+    green: '00C6A6', //'#64ffda',
     navy: '#0a192f',
     darkNavy: '#020c1b',
   },
