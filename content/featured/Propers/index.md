@@ -2,7 +2,7 @@
 date: '3'
 title: 'Propers Platform'
 cover: './propers_app_01.jpeg'
-external: 'https://propers.app'
+external: ''
 cta: ''
 tech:
   - React

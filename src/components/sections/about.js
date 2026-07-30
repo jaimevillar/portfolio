@@ -141,8 +141,7 @@ const About = () => {
 
             <p>
               On my recently journey, and I’ve had the privilege of working at{' '}
-              <a href="https://iasaglobal.com">a Caterpillar distributor</a>, and{' '}
-              <a href="https://propers.app/">a start-up</a>.{' '}
+              <a href="https://iasaglobal.com">a Caterpillar distributor</a>, and a start-up.{' '}
             </p>
 
             <p>Here are a few technologies I’ve been working with:</p>

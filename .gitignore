@@ -40,3 +40,4 @@ Thumbs.db
 # Gatsby specific config
 gatsby-config.js
 .vercel
+.env*.local
