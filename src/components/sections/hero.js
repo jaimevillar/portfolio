@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 import { navDelay, loaderDelay } from '@utils';
-import { usePrefersReducedMotion } from '@hooks';
+import { usePrefersReducedMotion, useTypewriter } from '@hooks';
+
+const TERMINAL_PHRASES = ['// Your tech team of one', '// Builder for your ideas'];
 
 const StyledHeroSection = styled.section`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -40,6 +42,35 @@ const StyledHeroSection = styled.section`
     max-width: 540px;
   }
 
+  .terminal-line {
+    margin-top: 30px;
+    min-height: 1.3em;
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: clamp(var(--fz-md), 3vw, var(--fz-lg));
+
+    &:after {
+      content: '';
+      display: inline-block;
+      width: 9px;
+      height: 1em;
+      margin-left: 4px;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
   .cta-group {
     display: flex;
     flex-wrap: wrap;
@@ -73,6 +104,7 @@ const StyledHeroSection = styled.section`
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const terminalText = useTypewriter(TERMINAL_PHRASES, prefersReducedMotion);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -87,7 +119,9 @@ const Hero = () => {
   const two = <h2 className="big-heading">Jaime Villar.</h2>;
   const three = <h3 className="big-heading">From idea to reality.</h3>;
 
-  const four = (
+  const four = <div className="terminal-line">{terminalText}</div>;
+
+  const five = (
     <>
       <p>
         I help people turn an idea into a real product — building it from zero as a hands-on
@@ -96,7 +130,7 @@ const Hero = () => {
     </>
   );
 
-  const five = (
+  const six = (
     <div className="cta-group">
       <a className="email-link" href="/#contact">
         Let's work together
@@ -107,7 +141,7 @@ const Hero = () => {
     </div>
   );
 
-  const items = [one, two, three, four, five];
+  const items = [one, two, three, four, five, six];
 
   return (
     <StyledHeroSection>
