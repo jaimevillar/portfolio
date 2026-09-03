@@ -40,9 +40,33 @@ const StyledHeroSection = styled.section`
     max-width: 540px;
   }
 
+  .cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 25px;
+    margin-top: 50px;
+  }
+
   .email-link {
     ${({ theme }) => theme.mixins.bigButton};
-    margin-top: 50px;
+    margin-top: 0;
+  }
+
+  .secondary-link {
+    color: var(--slate);
+    font-family: var(--font-mono);
+    font-size: var(--fz-sm);
+    text-decoration: none;
+    border-bottom: 1px solid var(--slate);
+    padding-bottom: 2px;
+    transition: var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--green);
+      border-bottom-color: var(--green);
+    }
   }
 `;
 
@@ -60,39 +84,27 @@ const Hero = () => {
   }, []);
 
   const one = <h1>Hi, my name is</h1>;
-  const two = <h2 className="big-heading">Jaime Villar Ortega.</h2>;
-  const three = <h3 className="big-heading">Challenges? We've got solutions.</h3>;
+  const two = <h2 className="big-heading">Jaime Villar.</h2>;
+  const three = <h3 className="big-heading">From idea to reality.</h3>;
 
   const four = (
     <>
       <p>
-        We bring the technical expertise, you bring the vision. Through collaboration, we'll craft solutions that exceeds expectations.
+        I help people turn an idea into a real product — building it from zero as a hands-on
+        developer, or bringing technical leadership to a project that already has traction.
       </p>
     </>
   );
-  /*
-  const four = (
-    <>
-      <p>
-        I’m a software engineer specializing in building (and occasionally designing) exceptional
-        digital experiences. Currently, I’m focused on building accessible, human-centered products
-        at{' '}
-        <a href="https://upstatement.com/" target="_blank" rel="noreferrer">
-          Upstatement
-        </a>
-        .
-      </p>
-    </>
-  );
-  */
+
   const five = (
-    <a
-      className="email-link"
-      href="https://www.linkedin.com/in/jaimevillaro"
-      target="_blank"
-      rel="noreferrer">
-      Check out my Linkedin!
-    </a>
+    <div className="cta-group">
+      <a className="email-link" href="/#contact">
+        Let's work together
+      </a>
+      <a className="secondary-link" href="/#jobs">
+        See my experience
+      </a>
+    </div>
   );
 
   const items = [one, two, three, four, five];
