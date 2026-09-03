@@ -1,11 +1,11 @@
 {
-  "name": "v4",
-  "description": "Personal Website V4",
+  "name": "jvillar",
+  "description": "Personal website of Jaime Villar — Software Engineer & builder",
   "version": "1.0.0",
-  "author": "Brittany Chiang <brittany.chiang@gmail.com>",
+  "author": "Jaime Villar <hello@jvillar.dev>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bchiang7/v4"
+    "url": "https://github.com/jaimevillar/portfolio"
   },
   "keywords": [
     "gatsby"
