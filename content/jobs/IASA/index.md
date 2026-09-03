@@ -1,9 +1,9 @@
 ---
-date: '2019-12-16'
+date: '2022-12-01'
 title: 'Mobile Application Developer'
 company: 'IASA'
 location: 'Panama City, Panama'
-range: 'December 2019 - May 2024'
+range: 'December 2022 - May 2024'
 url: 'https://iasaglobal.com'
 ---
 
