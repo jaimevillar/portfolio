@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { useLocation } from '@reach/router';
 import { useStaticQuery, graphql } from 'gatsby';
 import { otherLocalePath } from '@utils';
+import { email, socialMedia } from '@config';
 
 // https://www.gatsbyjs.com/docs/add-seo-component/
 
@@ -42,6 +43,35 @@ const Head = ({ title, description, image, locale }) => {
     url: `${siteUrl}${pathname}`,
   };
 
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Jaime Villar',
+    alternateName: 'jv_',
+    url: siteUrl,
+    image: seo.image,
+    jobTitle: 'Software Engineer',
+    email: `mailto:${email}`,
+    sameAs: socialMedia.map(({ url }) => url),
+    knowsAbout: [
+      'Software Engineering',
+      'Mobile Development',
+      'Flutter',
+      'React',
+      'Node.js',
+      'Python',
+      'Cloud Infrastructure',
+    ],
+  };
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: defaultTitle,
+    url: siteUrl,
+    inLanguage: ['en', 'es'],
+  };
+
   return (
     <Helmet title={title} defaultTitle={seo.title} titleTemplate={`%s | ${defaultTitle}`}>
       <html lang={locale} />
@@ -67,6 +97,9 @@ const Head = ({ title, description, image, locale }) => {
       <link rel="alternate" hrefLang="x-default" href={siteUrl} />
 
       <meta name="google-site-verification" content="DCl7VAf9tcz6eD9gb67NfkNnJ1PKRNcg8qQiwpbx9Lk" />
+
+      <script type="application/ld+json">{JSON.stringify(personSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
     </Helmet>
   );
 };

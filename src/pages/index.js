@@ -11,6 +11,7 @@ import {
   Featured,
   Projects,
   Contact,
+  StructuredDataProjects,
 } from '@components';
 
 const StyledMainContainer = styled.main`
@@ -18,18 +19,21 @@ const StyledMainContainer = styled.main`
 `;
 
 const IndexPage = ({ location, pageContext }) => (
-  <Layout location={location} pageContext={pageContext}>
-    <StyledMainContainer className="fillHeight">
-      <Hero />
-      <About />
-      <Jobs />
-      <HowIWork />
-      <FounderProjects />
-      <Featured />
-      {/*<Projects />*/}
-      <Contact />
-    </StyledMainContainer>
-  </Layout>
+  <>
+    <StructuredDataProjects locale={pageContext?.locale} />
+    <Layout location={location} pageContext={pageContext}>
+      <StyledMainContainer className="fillHeight">
+        <Hero />
+        <About />
+        <Jobs />
+        <HowIWork />
+        <FounderProjects />
+        <Featured />
+        {/*<Projects />*/}
+        <Contact />
+      </StyledMainContainer>
+    </Layout>
+  </>
 );
 
 IndexPage.propTypes = {
