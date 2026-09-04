@@ -6,6 +6,7 @@ import { srConfig } from '@config';
 import { KEY_CODES } from '@utils';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
+import { useLocale } from '../../context/LocaleContext';
 
 const StyledJobsSection = styled.section`
   max-width: 700px;
@@ -164,6 +165,11 @@ const StyledTabPanel = styled.div`
   }
 `;
 
+const HEADING = {
+  en: 'Where I’ve Worked',
+  es: 'Dónde He Trabajado',
+};
+
 const Jobs = () => {
   const data = useStaticQuery(graphql`
     query {
@@ -179,6 +185,7 @@ const Jobs = () => {
               location
               range
               url
+              lang
             }
             html
           }
@@ -187,7 +194,10 @@ const Jobs = () => {
     }
   `);
 
-  const jobsData = data.jobs.edges;
+  const locale = useLocale();
+  const jobsData = data.jobs.edges.filter(
+    ({ node }) => (node.frontmatter.lang || 'en') === locale,
+  );
 
   const [activeTabId, setActiveTabId] = useState(0);
   const [tabFocus, setTabFocus] = useState(null);
@@ -244,7 +254,7 @@ const Jobs = () => {
 
   return (
     <StyledJobsSection id="jobs" ref={revealContainer}>
-      <h2 className="numbered-heading">Where I’ve Worked</h2>
+      <h2 className="numbered-heading">{HEADING[locale] || HEADING.en}</h2>
 
       <div className="inner">
         <StyledTabList role="tablist" aria-label="Job tabs" onKeyDown={e => onKeyDown(e)}>

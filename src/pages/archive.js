@@ -129,8 +129,33 @@ const StyledTableContainer = styled.div`
   }
 `;
 
-const ArchivePage = ({ location, data }) => {
-  const projects = data.allMarkdownRemark.edges;
+const ARCHIVE_COPY = {
+  en: {
+    title: 'Archive',
+    subtitle: 'A big list of things I’ve worked on',
+    year: 'Year',
+    projectTitle: 'Title',
+    madeAt: 'Made at',
+    builtWith: 'Built with',
+    link: 'Link',
+  },
+  es: {
+    title: 'Archivo',
+    subtitle: 'Una lista de las cosas en las que he trabajado',
+    year: 'Año',
+    projectTitle: 'Título',
+    madeAt: 'Hecho en',
+    builtWith: 'Construido con',
+    link: 'Enlace',
+  },
+};
+
+const ArchivePage = ({ location, data, pageContext }) => {
+  const locale = pageContext?.locale || 'en';
+  const copy = ARCHIVE_COPY[locale] || ARCHIVE_COPY.en;
+  const projects = data.allMarkdownRemark.edges.filter(
+    ({ node }) => (node.frontmatter.lang || 'en') === locale,
+  );
   const revealTitle = useRef(null);
   const revealTable = useRef(null);
   const revealProjects = useRef([]);
@@ -147,24 +172,24 @@ const ArchivePage = ({ location, data }) => {
   }, []);
 
   return (
-    <Layout location={location}>
-      <Helmet title="Archive" />
+    <Layout location={location} pageContext={pageContext}>
+      <Helmet title={copy.title} />
 
       <main>
         <header ref={revealTitle}>
-          <h1 className="big-heading">Archive</h1>
-          <p className="subtitle">A big list of things I’ve worked on</p>
+          <h1 className="big-heading">{copy.title}</h1>
+          <p className="subtitle">{copy.subtitle}</p>
         </header>
 
         <StyledTableContainer ref={revealTable}>
           <table>
             <thead>
               <tr>
-                <th>Year</th>
-                <th>Title</th>
-                <th className="hide-on-mobile">Made at</th>
-                <th className="hide-on-mobile">Built with</th>
-                <th>Link</th>
+                <th>{copy.year}</th>
+                <th>{copy.projectTitle}</th>
+                <th className="hide-on-mobile">{copy.madeAt}</th>
+                <th className="hide-on-mobile">{copy.builtWith}</th>
+                <th>{copy.link}</th>
               </tr>
             </thead>
             <tbody>
@@ -219,6 +244,7 @@ const ArchivePage = ({ location, data }) => {
 ArchivePage.propTypes = {
   location: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
+  pageContext: PropTypes.object,
 };
 
 export default ArchivePage;
@@ -238,6 +264,7 @@ export const pageQuery = graphql`
             github
             external
             company
+            lang
           }
           html
         }

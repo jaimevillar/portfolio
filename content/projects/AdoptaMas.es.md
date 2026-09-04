@@ -8,7 +8,7 @@ tech:
   - Firebase
 company: 'AdoptaMás'
 showInProjects: true
-lang: 'en'
+lang: 'es'
 ---
 
-Adopta+ was build for connecting homeless dogs and cats and the amazing community dedicated to their well-being.
+Adopta+ fue construida para conectar perros y gatos sin hogar con la comunidad dedicada a su bienestar.

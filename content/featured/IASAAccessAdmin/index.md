@@ -9,6 +9,7 @@ tech:
   - Supabase
   - Firebase
   - Node.js
+lang: 'en'
 ---
 
 IASA Access Reports Admin is a powerful tool designed specifically for IASA condition analysts. It streamlines the equipment reporting process. Available on [IASA Access Reports Admin](https://admincsa.access.iasaglobal.com).

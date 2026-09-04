@@ -3,11 +3,13 @@ import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled, { css } from 'styled-components';
-import { navLinks } from '@config';
-import { loaderDelay } from '@utils';
+import { useLocation } from '@reach/router';
+import { navLinks, navLabels } from '@config';
+import { loaderDelay, withLocale, otherLocalePath } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
 import { Menu } from '@components';
 import { IconLogo, IconHex } from '@components/icons';
+import { useLocale } from '../context/LocaleContext';
 
 const StyledHeader = styled.header`
   ${({ theme }) => theme.mixins.flexBetween};
@@ -148,6 +150,19 @@ const StyledLinks = styled.div`
     margin-left: 15px;
     font-size: var(--fz-xs);
   }
+
+  .locale-switch {
+    margin-left: 15px;
+    padding: 10px;
+    color: var(--slate);
+    font-size: var(--fz-xs);
+    transition: var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--green);
+    }
+  }
 `;
 
 const Nav = ({ isHome }) => {
@@ -155,6 +170,11 @@ const Nav = ({ isHome }) => {
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const locale = useLocale();
+  const labels = navLabels[locale] || navLabels.en;
+  const { pathname } = useLocation();
+  const switcher = otherLocalePath(pathname, locale);
+  const homeHref = withLocale('/', locale);
 
   const handleScroll = () => {
     setScrolledToTop(window.pageYOffset < 50);
@@ -184,7 +204,7 @@ const Nav = ({ isHome }) => {
   const Logo = (
     <div className="logo" tabIndex="-1">
       {isHome ? (
-        <a href="/" aria-label="home">
+        <a href={homeHref} aria-label="home">
           <div className="hex-container">
             <IconHex />
           </div>
@@ -193,7 +213,7 @@ const Nav = ({ isHome }) => {
           </div>
         </a>
       ) : (
-        <Link to="/" aria-label="home">
+        <Link to={homeHref} aria-label="home">
           <div className="hex-container">
             <IconHex />
           </div>
@@ -207,8 +227,14 @@ const Nav = ({ isHome }) => {
 
   const ResumeLink = (
     <a className="resume-button" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-      Resume
+      {labels.resume}
     </a>
+  );
+
+  const LocaleSwitcher = (
+    <Link to={switcher.path} className="locale-switch" aria-label="Switch language">
+      {switcher.locale.toUpperCase()}
+    </Link>
   );
 
   return (
@@ -223,11 +249,14 @@ const Nav = ({ isHome }) => {
                 {navLinks &&
                   navLinks.map(({ url, name }, i) => (
                     <li key={i}>
-                      <Link to={url}>{name}</Link>
+                      <Link to={withLocale(url, locale)}>{labels[name] || name}</Link>
                     </li>
                   ))}
               </ol>
-              <div>{ResumeLink}</div>
+              <div>
+                {ResumeLink}
+                {LocaleSwitcher}
+              </div>
             </StyledLinks>
 
             <Menu />
@@ -250,7 +279,7 @@ const Nav = ({ isHome }) => {
                     navLinks.map(({ url, name }, i) => (
                       <CSSTransition key={i} classNames={fadeDownClass} timeout={timeout}>
                         <li key={i} style={{ transitionDelay: `${isHome ? i * 100 : 0}ms` }}>
-                          <Link to={url}>{name}</Link>
+                          <Link to={withLocale(url, locale)}>{labels[name] || name}</Link>
                         </li>
                       </CSSTransition>
                     ))}
@@ -262,6 +291,7 @@ const Nav = ({ isHome }) => {
                   <CSSTransition classNames={fadeDownClass} timeout={timeout}>
                     <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
                       {ResumeLink}
+                      {LocaleSwitcher}
                     </div>
                   </CSSTransition>
                 )}

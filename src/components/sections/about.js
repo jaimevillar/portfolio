@@ -4,6 +4,28 @@ import styled from 'styled-components';
 import { srConfig } from '@config';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
+import { useLocale } from '../../context/LocaleContext';
+
+const COPY = {
+  en: {
+    heading: 'About Me',
+    p1: "Hey there! I'm Jaime, a software engineer with a knack for building cool stuff. I'm passionate about tech and its power to solve problems and make life a little easier (or way more fun!).",
+    p2Before: 'On my journey so far, I’ve had the privilege of working at',
+    p2Link: 'a Caterpillar distributor',
+    p2After: ', and a start-up.',
+    p3: 'Here are a few technologies I’ve been working with:',
+    imgAlt: 'Headshot',
+  },
+  es: {
+    heading: 'Sobre Mí',
+    p1: 'Soy Jaime, ingeniero de software con talento para construir cosas geniales. Me apasiona la tecnología y su poder para resolver problemas y hacer la vida un poco más fácil (¡o mucho más divertida!).',
+    p2Before: 'En mi trayectoria he tenido el privilegio de trabajar en',
+    p2Link: 'un distribuidor de Caterpillar',
+    p2After: ', y en una startup.',
+    p3: 'Estas son algunas de las tecnologías con las que he trabajado:',
+    imgAlt: 'Foto de perfil',
+  },
+};
 
 const StyledAboutSection = styled.section`
   max-width: 900px;
@@ -116,6 +138,8 @@ const StyledPic = styled.div`
 const About = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const locale = useLocale();
+  const copy = COPY[locale] || COPY.en;
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -129,22 +153,19 @@ const About = () => {
 
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
-      <h2 className="numbered-heading">About Me</h2>
+      <h2 className="numbered-heading">{copy.heading}</h2>
 
       <div className="inner">
         <StyledText>
           <div>
-            <p>
-            Hey there! I'm Jaime, a software engineer with a knack for building cool stuff. 
-            I'm passionate about tech and its power to solve problems and make life a little easier (or way more fun!).
-            </p>
+            <p>{copy.p1}</p>
 
             <p>
-              On my recently journey, and I’ve had the privilege of working at{' '}
-              <a href="https://iasaglobal.com">a Caterpillar distributor</a>, and a start-up.{' '}
+              {copy.p2Before} <a href="https://iasaglobal.com">{copy.p2Link}</a>
+              {copy.p2After}
             </p>
 
-            <p>Here are a few technologies I’ve been working with:</p>
+            <p>{copy.p3}</p>
           </div>
 
           <ul className="skills-list">
@@ -160,7 +181,7 @@ const About = () => {
               width={500}
               quality={95}
               formats={['AUTO', 'WEBP', 'AVIF']}
-              alt="Headshot"
+              alt={copy.imgAlt}
             />
           </div>
         </StyledPic>

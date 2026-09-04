@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
-import { navLinks } from '@config';
-import { KEY_CODES } from '@utils';
+import { navLinks, navLabels } from '@config';
+import { KEY_CODES, withLocale, otherLocalePath } from '@utils';
 import { useOnClickOutside } from '@hooks';
+import { useLocale } from '../context/LocaleContext';
+import { useLocation } from '@reach/router';
 
 const StyledMenu = styled.div`
   display: none;
@@ -153,10 +155,20 @@ const StyledSidebar = styled.aside`
     margin: 10% auto 0;
     width: max-content;
   }
+
+  .locale-link {
+    ${({ theme }) => theme.mixins.link};
+    margin-top: 20px;
+    font-size: var(--fz-sm);
+  }
 `;
 
 const Menu = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const locale = useLocale();
+  const labels = navLabels[locale] || navLabels.en;
+  const { pathname } = useLocation();
+  const switcher = otherLocalePath(pathname, locale);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -258,8 +270,8 @@ const Menu = () => {
               <ol>
                 {navLinks.map(({ url, name }, i) => (
                   <li key={i}>
-                    <Link to={url} onClick={() => setMenuOpen(false)}>
-                      {name}
+                    <Link to={withLocale(url, locale)} onClick={() => setMenuOpen(false)}>
+                      {labels[name] || name}
                     </Link>
                   </li>
                 ))}
@@ -267,8 +279,12 @@ const Menu = () => {
             )}
 
             <a href="/resume.pdf" className="resume-link">
-              Resume
+              {labels.resume}
             </a>
+
+            <Link to={switcher.path} className="locale-link" onClick={() => setMenuOpen(false)}>
+              {switcher.locale.toUpperCase()}
+            </Link>
           </nav>
         </StyledSidebar>
       </div>

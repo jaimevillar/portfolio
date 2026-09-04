@@ -64,6 +64,19 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       },
     });
   });
+
+  // Spanish mirror of the homepage and archive page (English stays unprefixed at / and /archive/)
+  createPage({
+    path: '/es/',
+    component: path.resolve('src/pages/index.js'),
+    context: { locale: 'es' },
+  });
+
+  createPage({
+    path: '/es/archive/',
+    component: path.resolve('src/pages/archive.js'),
+    context: { locale: 'es' },
+  });
 };
 
 // https://www.gatsbyjs.org/docs/node-apis/#onCreateWebpackConfig

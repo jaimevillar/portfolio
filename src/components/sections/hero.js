@@ -1,10 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
-import { navDelay, loaderDelay } from '@utils';
+import { navDelay, loaderDelay, withLocale } from '@utils';
 import { usePrefersReducedMotion, useTypewriter } from '@hooks';
+import { useLocale } from '../../context/LocaleContext';
 
-const TERMINAL_PHRASES = ['// Your tech team of one', '// Builder for your ideas'];
+const COPY = {
+  en: {
+    greeting: 'Hi, my name is',
+    name: 'Jaime Villar.',
+    tagline: 'From idea to reality.',
+    terminalPhrases: ['// Your tech team of one', '// Builder for your ideas'],
+    paragraph:
+      "I help people turn an idea into a real product — building it from zero as a hands-on developer, or bringing technical leadership to a project that already has traction.",
+    ctaPrimary: "Let's work together",
+    ctaSecondary: 'See my experience',
+  },
+  es: {
+    greeting: 'Hola, mi nombre es',
+    name: 'Jaime Villar.',
+    tagline: 'De la idea a la realidad.',
+    terminalPhrases: ['// Todo tu equipo técnico', '// Constructor de tus ideas'],
+    paragraph:
+      'Ayudo a convertir una idea en un producto real — construyéndolo desde cero como desarrollador, o aportando liderazgo técnico a un proyecto que ya tiene tracción.',
+    ctaPrimary: 'Trabajemos juntos',
+    ctaSecondary: 'Ver mi experiencia',
+  },
+};
 
 const StyledHeroSection = styled.section`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -104,7 +126,9 @@ const StyledHeroSection = styled.section`
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const terminalText = useTypewriter(TERMINAL_PHRASES, prefersReducedMotion);
+  const locale = useLocale();
+  const copy = COPY[locale] || COPY.en;
+  const terminalText = useTypewriter(copy.terminalPhrases, prefersReducedMotion);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -115,28 +139,25 @@ const Hero = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const one = <h1>Hi, my name is</h1>;
-  const two = <h2 className="big-heading">Jaime Villar.</h2>;
-  const three = <h3 className="big-heading">From idea to reality.</h3>;
+  const one = <h1>{copy.greeting}</h1>;
+  const two = <h2 className="big-heading">{copy.name}</h2>;
+  const three = <h3 className="big-heading">{copy.tagline}</h3>;
 
   const four = <div className="terminal-line">{terminalText}</div>;
 
   const five = (
     <>
-      <p>
-        I help people turn an idea into a real product — building it from zero as a hands-on
-        developer, or bringing technical leadership to a project that already has traction.
-      </p>
+      <p>{copy.paragraph}</p>
     </>
   );
 
   const six = (
     <div className="cta-group">
-      <a className="email-link" href="/#contact">
-        Let's work together
+      <a className="email-link" href={withLocale('/#contact', locale)}>
+        {copy.ctaPrimary}
       </a>
-      <a className="secondary-link" href="/#jobs">
-        See my experience
+      <a className="secondary-link" href={withLocale('/#jobs', locale)}>
+        {copy.ctaSecondary}
       </a>
     </div>
   );

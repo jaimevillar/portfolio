@@ -6,6 +6,12 @@ import sr from '@utils/sr';
 import { srConfig } from '@config';
 import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
+import { useLocale } from '../../context/LocaleContext';
+
+const COPY = {
+  en: { heading: 'Some Things I’ve Built', overline: 'Featured Project', learnMore: 'Learn More' },
+  es: { heading: 'Algunas Cosas que He Construido', overline: 'Proyecto Destacado', learnMore: 'Ver Más' },
+};
 
 const StyledProjectsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
@@ -323,6 +329,7 @@ const Featured = () => {
               github
               external
               cta
+              lang
             }
             html
           }
@@ -331,7 +338,11 @@ const Featured = () => {
     }
   `);
 
-  const featuredProjects = data.featured.edges.filter(({ node }) => node);
+  const locale = useLocale();
+  const copy = COPY[locale] || COPY.en;
+  const featuredProjects = data.featured.edges.filter(
+    ({ node }) => node && (node.frontmatter.lang || 'en') === locale,
+  );
   const revealTitle = useRef(null);
   const revealProjects = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -348,7 +359,7 @@ const Featured = () => {
   return (
     <section id="projects">
       <h2 className="numbered-heading" ref={revealTitle}>
-        Some Things I’ve Built
+        {copy.heading}
       </h2>
 
       <StyledProjectsGrid>
@@ -362,7 +373,7 @@ const Featured = () => {
               <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
                 <div className="project-content">
                   <div>
-                    <p className="project-overline">Featured Project</p>
+                    <p className="project-overline">{copy.overline}</p>
 
                     <h3 className="project-title">
                       {external || github ? (
@@ -388,7 +399,7 @@ const Featured = () => {
                     <div className="project-links">
                       {cta && (
                         <a href={cta} aria-label="Course Link" className="cta">
-                          Learn More
+                          {copy.learnMore}
                         </a>
                       )}
                       {github && (

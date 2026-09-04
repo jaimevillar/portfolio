@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { srConfig } from '@config';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
+import { useLocale } from '../../context/LocaleContext';
 
 const StyledHowIWorkSection = styled.section`
   max-width: 900px;
@@ -53,27 +54,55 @@ const StyledStep = styled.div`
   }
 `;
 
-const steps = [
-  {
-    label: '01 / idea.md',
-    title: 'Idea',
-    desc: 'Define the real problem and scope only what needs to exist.',
+const COPY = {
+  en: {
+    heading: 'How I Work',
+    steps: [
+      {
+        label: '01 / idea.md',
+        title: 'Idea',
+        desc: 'Define the real problem and scope only what needs to exist.',
+      },
+      {
+        label: '02 / prototype.js',
+        title: 'Prototype',
+        desc: 'Build the smallest working version to prove it fast.',
+      },
+      {
+        label: '03 / product.prod',
+        title: 'Product',
+        desc: 'Harden, ship, and iterate with real users.',
+      },
+    ],
   },
-  {
-    label: '02 / prototype.js',
-    title: 'Prototype',
-    desc: 'Build the smallest working version to prove it fast.',
+  es: {
+    heading: 'Cómo Trabajo',
+    steps: [
+      {
+        label: '01 / idea.md',
+        title: 'Idea',
+        desc: 'Defino el problema real y delimito solo lo que necesita existir.',
+      },
+      {
+        label: '02 / prototype.js',
+        title: 'Prototipo',
+        desc: 'Construyo la versión mínima funcional para validarla rápido.',
+      },
+      {
+        label: '03 / product.prod',
+        title: 'Producto',
+        desc: 'Endurezco, lanzo e itero con usuarios reales.',
+      },
+    ],
   },
-  {
-    label: '03 / product.prod',
-    title: 'Product',
-    desc: 'Harden, ship, and iterate with real users.',
-  },
-];
+};
 
 const HowIWork = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const locale = useLocale();
+  const copy = COPY[locale] || COPY.en;
+  const steps = copy.steps;
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -85,7 +114,7 @@ const HowIWork = () => {
 
   return (
     <StyledHowIWorkSection id="how-i-work" ref={revealContainer}>
-      <h2 className="numbered-heading">How I Work</h2>
+      <h2 className="numbered-heading">{copy.heading}</h2>
 
       <div className="steps">
         {steps.map(({ label, title, desc }, i) => (

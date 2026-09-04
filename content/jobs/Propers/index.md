@@ -5,6 +5,7 @@ company: 'Propers'
 location: 'Panama City, Panama'
 range: 'July 2018 - September 2023'
 url: ''
+lang: 'en'
 ---
 
 - Tech founder and head of the project.

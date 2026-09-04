@@ -5,6 +5,7 @@ company: 'InTech Ideas'
 location: 'Panama City, Panama'
 range: 'January 2026 - Present'
 url: ''
+lang: 'en'
 ---
 
 - Part of the development team implementing software solutions for clients.

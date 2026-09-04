@@ -4,6 +4,24 @@ import styled from 'styled-components';
 import { srConfig } from '@config';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
+import { useLocale } from '../../context/LocaleContext';
+
+const COPY = {
+  en: {
+    heading: 'Founder Projects',
+    intro: "Ideas I've taken from zero to product, as a founder — not a contractor.",
+    stack: 'Stack',
+    status: 'Status',
+    pending: '[ pending ]',
+  },
+  es: {
+    heading: 'Proyectos de Fundador',
+    intro: 'Ideas que he llevado de cero a producto, como fundador — no como contratista.',
+    stack: 'Stack',
+    status: 'Estado',
+    pending: '[ pendiente ]',
+  },
+};
 
 const StyledFounderProjectsSection = styled.section`
   .intro {
@@ -93,6 +111,7 @@ const FounderProjects = () => {
               stack
               status
               external
+              lang
             }
             html
           }
@@ -101,7 +120,11 @@ const FounderProjects = () => {
     }
   `);
 
-  const projects = data.founderProjects.edges.filter(({ node }) => node);
+  const locale = useLocale();
+  const copy = COPY[locale] || COPY.en;
+  const projects = data.founderProjects.edges.filter(
+    ({ node }) => node && (node.frontmatter.lang || 'en') === locale,
+  );
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -115,11 +138,9 @@ const FounderProjects = () => {
 
   return (
     <StyledFounderProjectsSection id="founder-projects" ref={revealContainer}>
-      <h2 className="numbered-heading">Founder Projects</h2>
+      <h2 className="numbered-heading">{copy.heading}</h2>
 
-      <p className="intro">
-        Ideas I've taken from zero to product, as a founder — not a contractor.
-      </p>
+      <p className="intro">{copy.intro}</p>
 
       <div className="founder-grid">
         {projects.map(({ node }, i) => {
@@ -134,7 +155,8 @@ const FounderProjects = () => {
               {tagline && <div className="founder-tagline">"{tagline}"</div>}
               <div className="founder-desc" dangerouslySetInnerHTML={{ __html: node.html }} />
               <div className="founder-meta">
-                Stack: {stack || '[ pending ]'} &nbsp;·&nbsp; Status: {status || '[ pending ]'}
+                {copy.stack}: {stack || copy.pending} &nbsp;·&nbsp; {copy.status}:{' '}
+                {status || copy.pending}
               </div>
             </StyledFounderCard>
           );

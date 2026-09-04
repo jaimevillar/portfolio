@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import { Head, Loader, Nav, Social, Email, Footer } from '@components';
 import { GlobalStyle, theme } from '@styles';
+import { LocaleProvider } from '../context/LocaleContext';
+import { defaultLocale } from '@utils';
 
 const StyledContent = styled.div`
   display: flex;
@@ -10,8 +12,9 @@ const StyledContent = styled.div`
   min-height: 100vh;
 `;
 
-const Layout = ({ children, location }) => {
-  const isHome = location.pathname === '/';
+const Layout = ({ children, location, pageContext }) => {
+  const locale = pageContext?.locale || defaultLocale;
+  const isHome = location.pathname === '/' || location.pathname === `/${locale}/`;
   const [isLoading, setIsLoading] = useState(isHome);
 
   // Sets target="_blank" rel="noopener noreferrer" on external links
@@ -47,8 +50,8 @@ const Layout = ({ children, location }) => {
   }, [isLoading]);
 
   return (
-    <>
-      <Head />
+    <LocaleProvider value={locale}>
+      <Head locale={locale} pathname={location.pathname} />
 
       <div id="root">
         <ThemeProvider theme={theme}>
@@ -74,13 +77,14 @@ const Layout = ({ children, location }) => {
           )}
         </ThemeProvider>
       </div>
-    </>
+    </LocaleProvider>
   );
 };
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
+  pageContext: PropTypes.object,
 };
 
 export default Layout;

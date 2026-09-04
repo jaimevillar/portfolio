@@ -5,6 +5,7 @@ company: 'AdoptaMás'
 location: 'Panama City, Panama'
 range: 'December 2022 - March 2024'
 url: ''
+lang: 'en'
 ---
 
 - Designed and implemented robust and scalable software solutions using the Google Cloud Platform (Firebase, Flutter & JavaScript) for a SaaS product, and WooCommerce for an online store.

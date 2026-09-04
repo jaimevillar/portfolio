@@ -17,8 +17,8 @@ const StyledMainContainer = styled.main`
   counter-reset: section;
 `;
 
-const IndexPage = ({ location }) => (
-  <Layout location={location}>
+const IndexPage = ({ location, pageContext }) => (
+  <Layout location={location} pageContext={pageContext}>
     <StyledMainContainer className="fillHeight">
       <Hero />
       <About />
@@ -34,6 +34,7 @@ const IndexPage = ({ location }) => (
 
 IndexPage.propTypes = {
   location: PropTypes.object.isRequired,
+  pageContext: PropTypes.object,
 };
 
 export default IndexPage;

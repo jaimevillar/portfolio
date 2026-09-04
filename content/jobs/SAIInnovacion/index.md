@@ -5,6 +5,7 @@ company: 'SAI Innovación'
 location: 'Panama'
 range: 'August 2015 - May 2017'
 url: ''
+lang: 'en'
 ---
 
 - Responsible for coordinating, designing and partially developing mobile versions of the company's software and peripheral products.

@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Icon } from '@components/icons';
 import { socialMedia } from '@config';
+import { useLocale } from '../context/LocaleContext';
+
+const COPY = {
+  en: { credit: 'Built on a template by Brittany Chiang' },
+  es: { credit: 'Construido sobre una plantilla de Brittany Chiang' },
+};
 
 const StyledFooter = styled.footer`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -72,12 +78,14 @@ const Footer = () => {
     stars: null,
     forks: null,
   });
+  const locale = useLocale();
+  const copy = COPY[locale] || COPY.en;
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
       return;
     }
-    fetch('https://api.github.com/repos/bchiang7/v4')
+    fetch('https://api.github.com/repos/jaimevillar/portfolio')
       .then(response => response.json())
       .then(json => {
         const { stargazers_count, forks_count } = json;
@@ -106,7 +114,7 @@ const Footer = () => {
 
       <StyledCredit tabindex="-1">
         <a href="https://github.com/bchiang7/v4">
-          <div>Thanks to Brittany Chiang for the design &amp; built</div>
+          <div>{copy.credit}</div>
 
           {githubInfo.stars && githubInfo.forks && (
             <div className="github-stats">

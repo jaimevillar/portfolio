@@ -3,6 +3,26 @@ import styled from 'styled-components';
 import { srConfig, email } from '@config';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
+import { useLocale } from '../../context/LocaleContext';
+
+const COPY = {
+  en: {
+    overline: 'What’s Next?',
+    title: 'Have an idea?',
+    subtitle: "Let's make it happen!",
+    paragraph:
+      "I'm driven by creating innovative solutions and collaborating with awesome people. Let's connect and see what we can create together!",
+    cta: 'Say Hello',
+  },
+  es: {
+    overline: '¿Qué Sigue?',
+    title: '¿Tienes una idea?',
+    subtitle: '¡Hagámosla realidad!',
+    paragraph:
+      'Me motiva crear soluciones innovadoras y colaborar con gente increíble. ¡Conectemos y veamos qué podemos construir juntos!',
+    cta: 'Escríbeme',
+  },
+};
 
 const StyledContactSection = styled.section`
   max-width: 600px;
@@ -44,6 +64,8 @@ const StyledContactSection = styled.section`
 const Contact = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const locale = useLocale();
+  const copy = COPY[locale] || COPY.en;
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -55,17 +77,15 @@ const Contact = () => {
 
   return (
     <StyledContactSection id="contact" ref={revealContainer}>
-      <h2 className="numbered-heading overline">What’s Next?</h2>
+      <h2 className="numbered-heading overline">{copy.overline}</h2>
 
-      <h2 className="title">Have an idea?</h2>
-      <h3 className="title">Let's make it happen!</h3>
+      <h2 className="title">{copy.title}</h2>
+      <h3 className="title">{copy.subtitle}</h3>
 
-      <p>
-        I'm driven by creating innovative solutions and collaborating with awesome people. Let's connect and see what we can create together!
-      </p>
+      <p>{copy.paragraph}</p>
 
       <a className="email-link" href={`mailto:${email}`}>
-        Say Hello
+        {copy.cta}
       </a>
     </StyledContactSection>
   );

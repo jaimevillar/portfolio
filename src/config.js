@@ -26,6 +26,17 @@ module.exports = {
     */
   ],
 
+  navLabels: {
+    en: { About: 'About', Experience: 'Experience', Work: 'Work', Contact: 'Contact', resume: 'Resume' },
+    es: {
+      About: 'Acerca de',
+      Experience: 'Experiencia',
+      Work: 'Trabajo',
+      Contact: 'Contacto',
+      resume: 'Currículum',
+    },
+  },
+
   navLinks: [
     {
       name: 'About',
