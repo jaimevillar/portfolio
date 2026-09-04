@@ -108,7 +108,29 @@ Se generarán **2-3 direcciones visuales alternativas** partiendo del sistema `j
 
 ## 9. Próximos pasos inmediatos
 
-- Decidir el alcance de audiencia del sitio (3.2): ¿solo portafolio de empleo, o también landing de servicios CTO/builder?
-- Confirmar detalles finales de Colabores (rol, stack, link, estado) para redactar su ficha.
-- Revisar y aprobar una de las direcciones de `/design` para iniciar la Fase 2.
-- Decidir si se conserva Gatsby o se migra de framework antes de invertir en el rediseño visual.
+- ~~Decidir el alcance de audiencia del sitio (3.2)~~ → Resuelto: portafolio + landing de servicios (dos CTA en el hero, ver Fase 1/2).
+- ~~Confirmar detalles finales de Colabores~~ → Resuelto: ver Fase 3.
+- ~~Revisar y aprobar una dirección de `/design`~~ → Resuelto: dirección A · Terminal, prototipada en Fase 2.
+- Decidir si se conserva Gatsby o se migra de framework → Resuelto por ahora: **posponer** (ver sección 10).
+
+## 10. Fase 5 — Hallazgos técnicos y decisión de framework
+
+**Estado: Fases 0-5 completadas** (limpieza de contenido, branding, direcciones de diseño, componentes prototipados, i18n ES/EN, llms.txt y datos estructurados). Quedan pendientes la Fase 6 (lanzamiento) y la migración de framework.
+
+### Auditoría de performance (manual, sin Lighthouse real disponible en esta sesión)
+
+- Imágenes: `gatsby-plugin-image` ya genera AVIF/WebP automáticamente — sin acción pendiente.
+- Fuentes: WOFF2 con fallback WOFF, tamaños razonables (17-75KB por peso).
+- JS bundles de producción: `commons` 132KB, `framework` 128KB, `app` 108KB — dentro de rangos normales para Gatsby 3.
+- `og.png` 194KB, `resume.pdf` 34KB — aceptables.
+- **Pendiente**: correr Lighthouse real (Chrome DevTools o PageSpeed Insights) sobre el sitio desplegado para obtener un score oficial; no fue posible simularlo en este entorno.
+
+### Migración de framework: evidencia recopilada y decisión
+
+Durante esta sesión se confirmó, con evidencia directa (no solo la sospecha original de "Gatsby 3 es de 2021"), que el stack actual es frágil para seguir trabajando:
+
+- `gatsby-plugin-robots-txt@1.8.0` (instalado) declara un peer dependency de `gatsby@^5.0.0`, incompatible con el `gatsby@^3.4.1` real del proyecto — `npm install` falla con `ERESOLVE`; solo `yarn install` lo tolera silenciosamente.
+- `gatsby-config.js`, `yarn.lock` y `package-lock.json` están en `.gitignore` — la configuración de build y el árbol de dependencias resuelto no viven en el repo. `gatsby-config.js` tuvo que reconstruirse a mano en esta sesión a partir del HTML público de producción.
+- `node_modules` se vació sin aviso más de una vez durante esta sesión (entorno de trabajo efímero), obligando a reinstalar dependencias a mitad de tarea.
+
+**Decisión (2026-09-04): posponer la migración.** Migrar a Next.js, Astro o incluso solo actualizar a Gatsby 5 es un proyecto de varias semanas con cambios que rompen compatibilidad — se decidió tratarlo como deuda técnica documentada en vez de resolverlo al cierre de esta sesión. Recomendación para cuando se retome: versionar `gatsby-config.js` y los lockfiles antes de tocar nada más, ya que ahora mismo cualquier `npm install` fresco puede fallar o resolver versiones distintas a las de producción.
