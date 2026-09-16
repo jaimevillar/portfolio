@@ -5,6 +5,12 @@ import anime from 'animejs';
 import styled from 'styled-components';
 import { IconLoader } from '@components/icons';
 
+// anime.js pauses its rAF loop while the document is hidden (e.g. page loaded
+// in a background tab or prerendered) and only resumes on a `visibilitychange`
+// event, which doesn't always fire. Since this animation gates the entire
+// site's content, it must never stall waiting for that event.
+anime.suspendWhenDocumentHidden = false;
+
 const StyledLoader = styled.div`
   ${({ theme }) => theme.mixins.flexCenter};
   position: fixed;
@@ -78,7 +84,15 @@ const Loader = ({ finishLoading }) => {
   useEffect(() => {
     const timeout = setTimeout(() => setIsMounted(true), 10);
     animate();
-    return () => clearTimeout(timeout);
+
+    // Safety net: never let the loader block the site indefinitely if the
+    // animation fails to complete for any reason.
+    const failsafe = setTimeout(() => finishLoading(), 4000);
+
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(failsafe);
+    };
   }, []);
 
   return (
