@@ -1,9 +1,9 @@
 ---
-date: '2022-12-01'
+date: '2019-12-16'
 title: 'Desarrollador de Aplicaciones Móviles'
 company: 'IASA'
 location: 'Ciudad de Panamá, Panamá'
-range: 'Diciembre 2022 - Mayo 2024'
+range: 'Diciembre 2019 - Mayo 2024'
 url: 'https://iasaglobal.com'
 lang: 'es'
 ---
